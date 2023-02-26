@@ -1,7 +1,5 @@
 # YOLOv3解读与复现
 
-[toc]
-
 ## 网络
 
 ​	网络整体框图如下。
@@ -17,7 +15,7 @@
 
 ### 主干网络backbone：DarkNet-53
 
-<img src="C:\Users\Axuanz\AppData\Roaming\Typora\typora-user-images\image-20230226093758481.png" alt="image-20230226093758481" style="zoom:67%;" />
+![image](https://user-images.githubusercontent.com/92386084/221411327-31c328a9-5411-4bc3-af2a-7ec8de6b9109.png)
 
 >相较于YOLOv2中所使用的DarkNet19，新的网络使用了更多的卷积——**52层卷积（外加一个全连接层）**，同时，添加了残差网络中的**残差连结结构**，以提升网络的性能。DarkNet53网络中的降采样操作没有使用Maxpooling层，而是由stride=2的卷积来实现。卷积层仍旧是**线性卷积、BN层以及LeakyReLU激活函数**的串联组合。
 
@@ -43,11 +41,11 @@
 
 ​	置信度objectness也使用**交叉熵函数**(**之前当成回归问题处理**)
 
-![image-20230226130951523](C:\Users\Axuanz\AppData\Roaming\Typora\typora-user-images\image-20230226130951523.png)
+![image](https://user-images.githubusercontent.com/92386084/221411336-0b65e23c-c79b-484e-8323-3c79bf43bcc9.png)
 
 > 当然，作者也只是说softmax不会表现更好，所以代码里还是用的softmax加MSE
 
-![image-20230226131032015](C:\Users\Axuanz\AppData\Roaming\Typora\typora-user-images\image-20230226131032015.png)
+![image](https://user-images.githubusercontent.com/92386084/221411343-6c5849f0-28a5-49cf-9306-efc2221d774c.png)
 
 ## Q&A
 
@@ -61,7 +59,7 @@
 
 ​	代码与先前YOLOv1、YOLOv2差异不大，主要添加了**残差结构、多级预测、FPN特征金字塔、backbone改进**等一些trick；训练、测试以及评估(mAP)代码基本没有修改.
 
-​	详见[JJJYmmm‘s YOLOv3]()
+​	详见[here](https://www.zhihu.com/column/c_1364967262269693952)
 
 ### 预测效果
 
@@ -72,9 +70,9 @@
 - backbone使用了**残差连接**，起到了和FPN差不多效果（应该
 - 损失函数里有**惩罚小框项**，在之前的YOLOv2中有提到
 
-<img src="C:\Users\Axuanz\AppData\Roaming\Typora\typora-user-images\image-20230226125825584.png" alt="image-20230226125825584" style="zoom: 50%;" />
+![image](https://user-images.githubusercontent.com/92386084/221411353-a8bfbad2-1aae-4944-bf52-bb1c61984851.png)
 
-<img src="C:\Users\Axuanz\AppData\Roaming\Typora\typora-user-images\image-20230226131452305.png" alt="image-20230226131452305" style="zoom:50%;" />
+![image](https://user-images.githubusercontent.com/92386084/221411362-0e5847be-07e9-435c-8c40-6906afc9e69a.png)
 
 ### 评估
 
@@ -82,10 +80,9 @@
 
 > 损失函数里的类别损失代码里使用的是SOFTMAX+MSE,并不是论文里提到的BCE。事实上，使用BCE，从mAP衡量的话其实效果是变差了的。当然，对于作者来说，mAP并不是好的评价指标，详情见yolov3论文最后一部分Rebuttal
 >
-> ![image-20230226133208749](C:\Users\Axuanz\AppData\Roaming\Typora\typora-user-images\image-20230226133208749.png)
+> ![image](https://user-images.githubusercontent.com/92386084/221411360-207095b6-7b0d-4fff-ada5-475f9f994d12.png)
 
-![image-20230226132535303](C:\Users\Axuanz\AppData\Roaming\Typora\typora-user-images\image-20230226132535303.png)
-
+![image](https://user-images.githubusercontent.com/92386084/221411367-b8319774-d0e4-4a84-8e18-084cee530bd5.png)
 ## 附录
 
 ### YOLO系列与RetinaNet的对比
